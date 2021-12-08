@@ -74,11 +74,23 @@ while True:
                 if question_simple.user_answer is not None:
                     time.sleep(0.3)
                     q_num += 1
+    else:  # after all questions
+        score = 0
+        for question_simple in questions_list:
+            if question_simple.answer == question_simple.user_answer:
+                score += 1
+        score = round((score / q_total) * 100, 2)
+        img, _ = cvzone.putTextRect(img, f'Quiz Complete', [250, 300], 2, 2, offset=50,
+                                    border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+        img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [700, 300], 2, 2, offset=50,
+                                    border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
 
     # draw progress bar
     bar_value = 150 + ((1100 - 150) // q_total) * q_num
-    cv2.rectangle(img, (150, 600), (bar_value, 650), (255, 0, 0), cv2.FILLED)
-    cv2.rectangle(img, (150, 600), (1100, 650), (0, 255, 0), 5)
+    cv2.rectangle(img, (150, 600), (bar_value, 650), (0, 255, 0), cv2.FILLED)  # fill bar
+    cv2.rectangle(img, (150, 600), (1100, 650), (255, 255, 255), 5)  # outer rectangle
+    img, _ = cvzone.putTextRect(img, f'{round((q_num / q_total) * 100)} %', [1130, 635], 2, 2, offset=16,
+                                border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
 
     cv2.imshow("Image", img)
 

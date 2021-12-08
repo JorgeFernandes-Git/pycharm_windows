@@ -75,6 +75,11 @@ while True:
                     time.sleep(0.3)
                     q_num += 1
 
+    # draw progress bar
+    bar_value = 150 + ((1100 - 150) // q_total) * q_num
+    cv2.rectangle(img, (150, 600), (bar_value, 650), (255, 0, 0), cv2.FILLED)
+    cv2.rectangle(img, (150, 600), (1100, 650), (0, 255, 0), 5)
+
     cv2.imshow("Image", img)
 
     # ESC to close

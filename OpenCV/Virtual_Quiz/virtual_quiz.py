@@ -19,7 +19,7 @@ class QuestionClass:
     def update(self, cursor_c, bboxs_c):
         bbox_list = []
         for x, bbox_c in enumerate(bboxs_c):
-            bbox_list.append(bbox_c)
+            # bbox_list.append(bbox_c)
             x1_c, y1_c, x2_c, y2_c = bbox_c
             if x1_c < cursor_c[0] < x2_c and y1_c < cursor_c[1] < y2_c:
                 self.user_answer = x + 1  # x + 1 because of the csv format
@@ -27,9 +27,8 @@ class QuestionClass:
                 # print("user: ", self.user_answer)
                 # print("correct: ", self.answer)
                 if self.user_answer != self.answer:
-                    x1_ans, y1_ans, x2_ans, y2_ans = bbox_list[self.answer]
-                    cv2.rectangle(img, (x1_ans, y1_ans), (x2_ans, y2_ans), (255, 0, 0), cv2.FILLED)
-
+                    # x1_ans, y1_ans, x2_ans, y2_ans = bbox_list[self.answer]
+                    # cv2.rectangle(img, (x1_ans, y1_ans), (x2_ans, y2_ans), (255, 0, 0), cv2.FILLED)
                     print("incorrect")
                 else:
                     print("correct")
@@ -96,21 +95,35 @@ while True:
 
     else:  # after all questions
         score = 0
-        for question_simple in questions_list:
+        results_list = []
+        for i, question_simple in enumerate(questions_list):
             if question_simple.answer == question_simple.user_answer:
                 score += 1
+                results_list.append(f'Question {i+1} correct')
+            else:
+                results_list.append(f'Question {i+1} incorrect')
         score = round((score / q_total) * 100, 2)
+        # print(results_list)
 
         # final screen
-        img, _ = cvzone.putTextRect(img, f'Quiz Complete', [250, 300], 2, 2, offset=50,
-                                    border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+        # img, _ = cvzone.putTextRect(img, f'Quiz Complete', [250, 300], 2, 2, offset=50,
+        #                             border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
         # score box
-        img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [700, 300], 2, 2, offset=50,
+        img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [400, 300], 2, 2, offset=50,
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
         # play again box
         img, bbox_p_again = cvzone.putTextRect(img, f'Play Again', [500, 500], 3, 2, offset=50,
                                                border=5, colorB=(255, 255, 255), colorR=(0, 0, 0),
                                                colorT=(255, 255, 255))
+
+        # results
+        results_dist = 0
+        for i, result in enumerate(results_list):
+            img, _ = cvzone.putTextRect(img, str(result), [100, (100+results_dist)], 1, 1, offset=5,
+                                        border=0, colorB=(255, 255, 255), colorR=(0, 0, 0),
+                                        colorT=(255, 255, 255))
+            results_dist += 30
+            # print(results_dist)
 
         # play again
         if hands:  # hands are from the method findHands

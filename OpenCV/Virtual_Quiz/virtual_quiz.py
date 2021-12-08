@@ -41,7 +41,8 @@ while True:
     hands, img = detector.findHands(img, flipType=False)
 
     question_simple = questions_list[0]
-    img, bbox = cvzone.putTextRect(img, question_simple.question, [100, 100], 2, 2, offset=50)
+    img, bbox = cvzone.putTextRect(img, question_simple.question, [100, 100], 2, 2, offset=50, border=5,
+                                   colorB=(255, 255, 255), colorR=(0, 0, 0))
 
     cv2.imshow("Image", img)
 

@@ -17,11 +17,11 @@ class QuestionClass:
         self.user_answer = None  # verify if the user choose a answer
 
     def update(self, cursor_c, bboxs_c):
-        for x, bbox in enumerate(bboxs_c):
-            x1, y1, x2, y2 = bbox
-            if x1 < cursor_c[0] < x2 and y1 < cursor_c[1] < y2:
+        for x, bbox_c in enumerate(bboxs_c):
+            x1_c, y1_c, x2_c, y2_c = bbox_c
+            if x1_c < cursor_c[0] < x2_c and y1_c < cursor_c[1] < y2_c:
                 self.user_answer = x + 1  # x + 1 because of the csv format
-                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), cv2.FILLED)  # green box to show the click
+                cv2.rectangle(img, (x1_c, y1_c), (x2_c, y2_c), (0, 255, 0), cv2.FILLED)  # green box to show the click
 
 
 """
@@ -43,6 +43,7 @@ questions_list = []
 for q in data_total:
     questions_list.append(QuestionClass(q))
 
+# total number of questions read
 q_num = 0
 q_total = len(data_total)
 
@@ -63,9 +64,9 @@ while True:
                                         colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
         img, bbox2 = cvzone.putTextRect(img, question_simple.choice2, [450, 200], 2, 2, offset=30, border=5,
                                         colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
-        img, bbox3 = cvzone.putTextRect(img, question_simple.choice3, [100, 350], 2, 2, offset=30, border=5,
+        img, bbox3 = cvzone.putTextRect(img, question_simple.choice3, [100, 300], 2, 2, offset=30, border=5,
                                         colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
-        img, bbox4 = cvzone.putTextRect(img, question_simple.choice4, [450, 350], 2, 2, offset=30, border=5,
+        img, bbox4 = cvzone.putTextRect(img, question_simple.choice4, [450, 300], 2, 2, offset=30, border=5,
                                         colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
 
         if hands:  # hands are from the method findHands

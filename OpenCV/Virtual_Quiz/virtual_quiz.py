@@ -17,11 +17,23 @@ class QuestionClass:
         self.user_answer = None  # verify if the user choose a answer
 
     def update(self, cursor_c, bboxs_c):
+        bbox_list = []
         for x, bbox_c in enumerate(bboxs_c):
+            bbox_list.append(bbox_c)
             x1_c, y1_c, x2_c, y2_c = bbox_c
             if x1_c < cursor_c[0] < x2_c and y1_c < cursor_c[1] < y2_c:
                 self.user_answer = x + 1  # x + 1 because of the csv format
                 cv2.rectangle(img, (x1_c, y1_c), (x2_c, y2_c), (0, 255, 0), cv2.FILLED)  # green box to show the click
+                # print("user: ", self.user_answer)
+                # print("correct: ", self.answer)
+                if self.user_answer != self.answer:
+                    x1_ans, y1_ans, x2_ans, y2_ans = bbox_list[self.answer]
+                    cv2.rectangle(img, (x1_ans, y1_ans), (x2_ans, y2_ans), (255, 0, 0), cv2.FILLED)
+
+                    print("incorrect")
+                else:
+                    print("correct")
+        # print(bbox_list)
 
 
 """
@@ -72,14 +84,14 @@ while True:
         if hands:  # hands are from the method findHands
             lm_list = hands[0]["lmList"]
             cursor = lm_list[8]  # tip of the index by mediapipe
-            length, info = detector.findDistance(lm_list[8], lm_list[12])
+            length, info = detector.findDistance(lm_list[8], lm_list[12])  # dist between index and middle fingertips
 
             # click mode
             if length < 60:
                 question_simple.update(cursor, [bbox1, bbox2, bbox3, bbox4])
                 # print(question_simple.user_answer)
                 if question_simple.user_answer is not None:
-                    time.sleep(1)
+                    time.sleep(0.3)
                     q_num += 1
 
     else:  # after all questions
@@ -92,8 +104,10 @@ while True:
         # final screen
         img, _ = cvzone.putTextRect(img, f'Quiz Complete', [250, 300], 2, 2, offset=50,
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+        # score box
         img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [700, 300], 2, 2, offset=50,
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+        # play again box
         img, bbox_p_again = cvzone.putTextRect(img, f'Play Again', [500, 500], 3, 2, offset=50,
                                                border=5, colorB=(255, 255, 255), colorR=(0, 0, 0),
                                                colorT=(255, 255, 255))
@@ -102,10 +116,10 @@ while True:
         if hands:  # hands are from the method findHands
             lm_list = hands[0]["lmList"]
             cursor = lm_list[8]  # tip of the index by mediapipe
-            length, info = detector.findDistance(lm_list[8], lm_list[12])
+            length, info = detector.findDistance(lm_list[8], lm_list[12])  # dist between index and middle fingertips
             x1, y1, x2, y2 = bbox_p_again  # box position
 
-            # click mode
+            # click play again
             if length < 60 and x1 < cursor[0] < x2 and y1 < cursor[1] < y2:  # cursor[0], cursor[1] = x, y
                 q_num = 0
                 cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), cv2.FILLED)  # green box to show the click
@@ -116,6 +130,8 @@ while True:
     cv2.rectangle(img, (70, 600), (bar_value, 650), (0, 255, 0), cv2.FILLED)  # fill bar
     cv2.rectangle(img, (70, 600), (1100, 650), (255, 255, 255), 5)  # outer rectangle
     img, _ = cvzone.putTextRect(img, f'{round((q_num / q_total) * 100)} %', [1130, 635], 2, 2, offset=16,
+                                border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+    img, _ = cvzone.putTextRect(img, f'Question: {q_num}', [86, 560], 2, 2, offset=16,
                                 border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
 
     cv2.imshow("Image", img)

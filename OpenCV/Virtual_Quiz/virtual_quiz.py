@@ -59,7 +59,7 @@ q_num = 0
 q_total = len(data_total)
 
 # variable flags
-user_resp = False
+user_resp = False  # check if user answer before change question
 
 # variables
 question_simple = ""
@@ -119,9 +119,11 @@ while True:
         # final screen
         # img, _ = cvzone.putTextRect(img, f'Quiz Complete', [250, 300], 2, 2, offset=50,
         #                             border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+
         # score box
         img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [460, 300], 2, 2, offset=50,
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+
         # play again box
         img, bbox_p_again = cvzone.putTextRect(img, f'Play Again', [500, 500], 3, 2, offset=50,
                                                border=5, colorB=(255, 255, 255), colorR=(0, 0, 0),
@@ -142,6 +144,7 @@ while True:
             cursor = lm_list[8]  # tip of the index by mediapipe
             length, info = detector.findDistance(lm_list[8], lm_list[12])  # dist between index and middle fingertips
             x1, y1, x2, y2 = bbox_p_again  # box position
+            question_simple.user_answer = None
 
             # click play again
             if length < 60 and x1 < cursor[0] < x2 and y1 < cursor[1] < y2:  # cursor[0], cursor[1] = x, y

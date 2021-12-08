@@ -1,5 +1,6 @@
 import csv
 import cv2
+import cvzone
 from cvzone.HandTrackingModule import HandDetector
 
 cap = cv2.VideoCapture(0)
@@ -39,6 +40,8 @@ while True:
     img = cv2.flip(img, 1)
     hands, img = detector.findHands(img, flipType=False)
 
+    question_simple = questions_list[0]
+    img, bbox = cvzone.putTextRect(img, question_simple.question, [100, 100], 2, 2, offset=50)
 
     cv2.imshow("Image", img)
 

@@ -69,6 +69,7 @@ while True:
     # iterate through all questions
     if q_num < q_total:
         question_simple = questions_list[q_num]
+        question_simple.user_answer = None
         img, bbox = cvzone.putTextRect(img, question_simple.question, [100, 100], 2, 2, offset=30, border=5,
                                        colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
         img, bbox1 = cvzone.putTextRect(img, question_simple.choice1, [100, 200], 2, 2, offset=30, border=5,
@@ -90,6 +91,7 @@ while True:
                 question_simple.update(cursor, [bbox1, bbox2, bbox3, bbox4])
                 # print(question_simple.user_answer)
                 if question_simple.user_answer is not None:
+                    print(question_simple.user_answer)
                     time.sleep(0.3)
                     q_num += 1
 
@@ -109,7 +111,7 @@ while True:
         # img, _ = cvzone.putTextRect(img, f'Quiz Complete', [250, 300], 2, 2, offset=50,
         #                             border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
         # score box
-        img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [400, 300], 2, 2, offset=50,
+        img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [450, 300], 2, 2, offset=50,
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
         # play again box
         img, bbox_p_again = cvzone.putTextRect(img, f'Play Again', [500, 500], 3, 2, offset=50,
@@ -135,6 +137,7 @@ while True:
             # click play again
             if length < 60 and x1 < cursor[0] < x2 and y1 < cursor[1] < y2:  # cursor[0], cursor[1] = x, y
                 q_num = 0
+                # question_simple.user_answer = None
                 cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), cv2.FILLED)  # green box to show the click
                 time.sleep(2)
 

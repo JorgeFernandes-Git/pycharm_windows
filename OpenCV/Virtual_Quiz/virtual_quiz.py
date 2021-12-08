@@ -93,18 +93,19 @@ while True:
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
         img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [700, 300], 2, 2, offset=50,
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
-        img, bbox_play_again = cvzone.putTextRect(img, f'Play Again', [500, 500], 3, 2, offset=50,
-                                    border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+        img, bbox_p_again = cvzone.putTextRect(img, f'Play Again', [500, 500], 3, 2, offset=50,
+                                               border=5, colorB=(255, 255, 255), colorR=(0, 0, 0),
+                                               colorT=(255, 255, 255))
 
         # play again
         if hands:  # hands are from the method findHands
             lm_list = hands[0]["lmList"]
             cursor = lm_list[8]  # tip of the index by mediapipe
             length, info = detector.findDistance(lm_list[8], lm_list[12])
-            x1, y1, x2, y2 = bbox_play_again  # box position
+            x1, y1, x2, y2 = bbox_p_again  # box position
 
             # click mode
-            if length < 40 and x1 < cursor[0] < x2 and y1 < cursor[1] < y2:
+            if length < 60 and x1 < cursor[0] < x2 and y1 < cursor[1] < y2:  # cursor[0], cursor[1] = x, y
                 q_num = 0
                 cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), cv2.FILLED)  # green box to show the click
                 time.sleep(2)

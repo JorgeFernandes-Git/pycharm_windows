@@ -4,11 +4,6 @@ import cvzone
 from cvzone.HandTrackingModule import HandDetector
 import time
 
-cap = cv2.VideoCapture(0)
-cap.set(3, 1280)
-cap.set(4, 720)
-detector = HandDetector(detectionCon=0.8)
-
 
 class QuestionClass:
     def __init__(self, data):
@@ -21,13 +16,21 @@ class QuestionClass:
 
         self.user_answer = None  # verify if the user choose a answer
 
-    def update(self, cursor, bboxs):
-        for x, bbox in enumerate(bboxs):
+    def update(self, cursor_c, bboxs_c):
+        for x, bbox in enumerate(bboxs_c):
             x1, y1, x2, y2 = bbox
-            if x1 < cursor[0] < x2 and y1 < cursor[1] < y2:
+            if x1 < cursor_c[0] < x2 and y1 < cursor_c[1] < y2:
                 self.user_answer = x + 1  # x + 1 because of the csv format
-                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), cv2.FILLED)
+                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), cv2.FILLED)  # green box to show the click
 
+
+"""
+Initialization
+"""
+cap = cv2.VideoCapture(0)
+cap.set(3, 1280)  # width
+cap.set(4, 720)  # height
+detector = HandDetector(detectionCon=0.8)
 
 # import csv file data
 path_csv = "questions.csv"
@@ -43,6 +46,9 @@ for q in data_total:
 q_num = 0
 q_total = len(data_total)
 
+"""
+Processing
+"""
 while True:
     success, img = cap.read()
     img = cv2.flip(img, 1)
@@ -68,22 +74,40 @@ while True:
             length, info = detector.findDistance(lm_list[8], lm_list[12])
 
             # click mode
-            if length < 40:
+            if length < 60:
                 question_simple.update(cursor, [bbox1, bbox2, bbox3, bbox4])
-                print(question_simple.user_answer)
+                # print(question_simple.user_answer)
                 if question_simple.user_answer is not None:
-                    time.sleep(0.3)
+                    time.sleep(1)
                     q_num += 1
+
     else:  # after all questions
         score = 0
         for question_simple in questions_list:
             if question_simple.answer == question_simple.user_answer:
                 score += 1
         score = round((score / q_total) * 100, 2)
+
+        # final screen
         img, _ = cvzone.putTextRect(img, f'Quiz Complete', [250, 300], 2, 2, offset=50,
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
         img, _ = cvzone.putTextRect(img, f'Your Score: {score} %', [700, 300], 2, 2, offset=50,
                                     border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+        img, bbox_play_again = cvzone.putTextRect(img, f'Play Again', [500, 500], 3, 2, offset=50,
+                                    border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
+
+        # play again
+        if hands:  # hands are from the method findHands
+            lm_list = hands[0]["lmList"]
+            cursor = lm_list[8]  # tip of the index by mediapipe
+            length, info = detector.findDistance(lm_list[8], lm_list[12])
+            x1, y1, x2, y2 = bbox_play_again  # box position
+
+            # click mode
+            if length < 40 and x1 < cursor[0] < x2 and y1 < cursor[1] < y2:
+                q_num = 0
+                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), cv2.FILLED)  # green box to show the click
+                time.sleep(2)
 
     # draw progress bar
     bar_value = 150 + ((1100 - 150) // q_total) * q_num
@@ -98,3 +122,6 @@ while True:
     k = cv2.waitKey(1) & 0xFF
     if k == 27:
         break
+
+cap.release()
+cv2.destroyAllWindows()

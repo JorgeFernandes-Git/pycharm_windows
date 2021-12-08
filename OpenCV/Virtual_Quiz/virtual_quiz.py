@@ -144,12 +144,15 @@ while True:
             cursor = lm_list[8]  # tip of the index by mediapipe
             length, info = detector.findDistance(lm_list[8], lm_list[12])  # dist between index and middle fingertips
             x1, y1, x2, y2 = bbox_p_again  # box position
-            question_simple.user_answer = None
 
             # click play again
             if length < 60 and x1 < cursor[0] < x2 and y1 < cursor[1] < y2:  # cursor[0], cursor[1] = x, y
+                # create object for each question
+                questions_list = []
+                for q in data_total:
+                    questions_list.append(QuestionClass(q))
+                question_simple = ""
                 q_num = 0
-                question_simple.user_answer = None
                 cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), cv2.FILLED)  # green box to show the click
                 # time.sleep(2)
 

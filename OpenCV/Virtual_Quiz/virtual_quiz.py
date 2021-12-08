@@ -57,15 +57,15 @@ while True:
     # iterate through all questions
     if q_num < q_total:
         question_simple = questions_list[q_num]
-        img, bbox = cvzone.putTextRect(img, question_simple.question, [100, 100], 2, 2, offset=50, border=5,
+        img, bbox = cvzone.putTextRect(img, question_simple.question, [100, 100], 2, 2, offset=30, border=5,
                                        colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
-        img, bbox1 = cvzone.putTextRect(img, question_simple.choice1, [100, 250], 2, 2, offset=50, border=5,
+        img, bbox1 = cvzone.putTextRect(img, question_simple.choice1, [100, 200], 2, 2, offset=30, border=5,
                                         colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
-        img, bbox2 = cvzone.putTextRect(img, question_simple.choice2, [400, 250], 2, 2, offset=50, border=5,
+        img, bbox2 = cvzone.putTextRect(img, question_simple.choice2, [450, 200], 2, 2, offset=30, border=5,
                                         colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
-        img, bbox3 = cvzone.putTextRect(img, question_simple.choice3, [100, 400], 2, 2, offset=50, border=5,
+        img, bbox3 = cvzone.putTextRect(img, question_simple.choice3, [100, 350], 2, 2, offset=30, border=5,
                                         colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
-        img, bbox4 = cvzone.putTextRect(img, question_simple.choice4, [400, 400], 2, 2, offset=50, border=5,
+        img, bbox4 = cvzone.putTextRect(img, question_simple.choice4, [450, 350], 2, 2, offset=30, border=5,
                                         colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
 
         if hands:  # hands are from the method findHands
@@ -111,9 +111,9 @@ while True:
                 time.sleep(2)
 
     # draw progress bar
-    bar_value = 150 + ((1100 - 150) // q_total) * q_num
-    cv2.rectangle(img, (150, 600), (bar_value, 650), (0, 255, 0), cv2.FILLED)  # fill bar
-    cv2.rectangle(img, (150, 600), (1100, 650), (255, 255, 255), 5)  # outer rectangle
+    bar_value = 70 + ((1100 - 70) // q_total) * q_num
+    cv2.rectangle(img, (70, 600), (bar_value, 650), (0, 255, 0), cv2.FILLED)  # fill bar
+    cv2.rectangle(img, (70, 600), (1100, 650), (255, 255, 255), 5)  # outer rectangle
     img, _ = cvzone.putTextRect(img, f'{round((q_num / q_total) * 100)} %', [1130, 635], 2, 2, offset=16,
                                 border=5, colorB=(255, 255, 255), colorR=(0, 0, 0), colorT=(255, 255, 255))
 

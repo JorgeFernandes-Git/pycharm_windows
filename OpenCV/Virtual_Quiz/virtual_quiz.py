@@ -2,7 +2,6 @@ import csv
 import cv2
 import cvzone
 from cvzone.HandTrackingModule import HandDetector
-import time
 
 
 class QuestionClass:
@@ -33,6 +32,7 @@ class QuestionClass:
                 else:
                     print("correct")
         # print(bbox_list)
+        # return bbox_c
 
 
 """
@@ -97,8 +97,9 @@ while True:
                 question_simple.update(cursor, [bbox1, bbox2, bbox3, bbox4])
                 # print(question_simple.user_answer)
                 if question_simple.user_answer is not None:
-                    print(question_simple.user_answer)
+                    # print(question_simple.user_answer)
                     user_resp = True
+
 
             if length > 80 and user_resp:
                 q_num += 1

@@ -4,6 +4,7 @@ from cvzone.HandTrackingModule import HandDetector
 # mediapipe 0.8.7
 # cvzone 1.4.1
 
+
 class Button:
     def __init__(self, pos, text, size=[85, 85]):
         self.pos = pos
@@ -31,7 +32,7 @@ keys = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
 btn_list = []
 for x in range(0, 10):  # ten horizontal keys
     for y in range(0, 3):  # three rows
-        btn_list.append(Button([200 * x + 50, 100*y+150], keys[y][x]))
+        btn_list.append(Button([100 * x + 150, 100*y+100], keys[y][x]))
 
 while True:
     success, img = cap.read()

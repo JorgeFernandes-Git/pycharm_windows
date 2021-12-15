@@ -3,6 +3,9 @@ import cv2
 import cvzone
 from cvzone.HandTrackingModule import HandDetector
 
+# cvzone 1.5.1
+# mediapipe 0.8.7.2
+
 
 class QuestionClass:
     def __init__(self, data):

@@ -1,6 +1,8 @@
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 
+# cvzone 1.5.3
+# mediapipe 0.8.9
 
 # class for creating the buttons
 class Button:

@@ -1,9 +1,8 @@
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 
-
-# mediapipe 0.8.7
-# cvzone 1.4.1
+# cvzone 1.5.3
+# mediapipe 0.8.9.1
 
 
 class Button:
@@ -109,12 +108,12 @@ while True:
         if fingers == [0, 0, 0, 0, 0]:
             write_text = ""
 
-        # add space -- lift index and pinky finger
+        # add space -- index and pinky finger up \m/
         if fingers == [0, 1, 0, 0, 1] and delay_cnt == 0:
             write_text += " "
             delay_cnt = 1
 
-            # ------------------------------- avoid duplication
+    # ------------------------------- avoid duplication
     if not delay_cnt == 0:
         delay_cnt += 1
         if delay_cnt > 10:

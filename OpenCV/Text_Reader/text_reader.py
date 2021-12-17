@@ -10,8 +10,11 @@ print(pytesseract.image_to_string(img))  # detect chars
 # print(pytesseract.image_to_boxes(img))  # detect rect on chars
 
 h_img, w_img, _ = img.shape
+
+config = r'--oem 3 --psm 6 outputbase digits'  # only detect numbers
+
 #
-# boxes = pytesseract.image_to_boxes(img)
+# boxes = pytesseract.image_to_boxes(img, config=config)
 #
 # for box in boxes.splitlines():
 #     box = box.split(' ')

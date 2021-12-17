@@ -33,3 +33,16 @@ def create_train():
 
 
 create_train()
+
+print('--------------Training done--------------')
+
+features = np.array(features, dtype='object')
+labels = np.array(labels)
+
+face_recognizer = cv2.face.LBPHFaceRecognizer_create()
+
+face_recognizer.train(features, labels)
+face_recognizer.save('face_trained.yml')
+
+np.save('features.npy', features)
+np.save('labels.npy', labels)

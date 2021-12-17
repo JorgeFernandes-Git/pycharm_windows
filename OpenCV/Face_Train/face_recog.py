@@ -15,7 +15,7 @@ labels = np.load('labels.npy')
 face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 face_recognizer.read('face_trained.yml')
 
-img = cv2.imread(r'D:\Projetos\Pycharm\pycharm_windows\OpenCV\Face_Train\images\Elton John\elton_john (3).png')
+img = cv2.imread(r'C:\Users\jorge\Desktop\download.png')
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 # cv2.imshow('Person', gray)
@@ -28,7 +28,7 @@ for (x, y, w, h) in faces_rect:
     label, confidence = face_recognizer.predict(faces_roi)
     print(f'Label = {people[label]} with a confidence of {confidence}')
 
-    cv2.putText(img, str(people[label]), (20, 20), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 0), 2)
+    cv2.putText(img, str(people[label]), (20, 50), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 4)
     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), thickness=2)
 
 cv2.imshow("Detected Face", img)

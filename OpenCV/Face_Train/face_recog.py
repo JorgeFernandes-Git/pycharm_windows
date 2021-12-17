@@ -15,7 +15,7 @@ labels = np.load('labels.npy')
 face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 face_recognizer.read('face_trained.yml')
 
-img = cv2.imread(r'C:\Users\jorge\Desktop\download.png')
+img = cv2.imread(r'D:\Projetos\Pycharm\pycharm_windows\OpenCV\Face_Train\images\Madonna\madona (2).png')
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 # cv2.imshow('Person', gray)

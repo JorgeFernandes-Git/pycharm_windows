@@ -13,14 +13,14 @@ class Button:
 
     def draw(self, img):
         overlay = img.copy()
-        cv2.rectangle(overlay, self.pos, (self.pos[0] + self.size[0], self.pos[1] + self.size[1]), (255, 0, 255),
+        cv2.rectangle(overlay, self.pos, (self.pos[0] + self.size[0], self.pos[1] + self.size[1]), (255, 255, 255),
                       cv2.FILLED)
         alpha = 0.4
         img = cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0)  # add transparency
         cv2.rectangle(img, self.pos, (self.pos[0] + self.size[0], self.pos[1] + self.size[1]), (0, 0, 0),
                       2)
         cv2.putText(img, self.text, (self.pos[0] + 20, self.pos[1] + 65),
-                    cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)
+                    cv2.FONT_HERSHEY_PLAIN, 4, (0, 0, 0), 4)
         return img
 
     def click_check(self, x, y):
@@ -38,12 +38,12 @@ class Button:
     def over_key(self, x, y):
         if self.pos[0] < x < self.pos[0] + self.size[0] and self.pos[1] < y < self.pos[1] + self.size[1]:
             cv2.rectangle(img, (self.pos[0], self.pos[1]), (self.pos[0] + self.size[0], self.pos[1] + self.size[1]),
-                          (175, 0, 175),
+                          (225, 255, 225),
                           cv2.FILLED)
             cv2.rectangle(img, self.pos, (self.pos[0] + self.size[0], self.pos[1] + self.size[1]), (0, 0, 0),
                           2)
             cv2.putText(img, btn.text, (self.pos[0] + 20, self.pos[1] + 65),
-                        cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)
+                        cv2.FONT_HERSHEY_PLAIN, 4, (0, 0, 0), 4)
 
 
 cap = cv2.VideoCapture(0)
@@ -78,7 +78,7 @@ while True:
 
     # create write area
     overlay = img.copy()
-    cv2.rectangle(overlay, (150, 600), (150 + 1000, 600 + 85), (255, 0, 255), cv2.FILLED)
+    cv2.rectangle(overlay, (150, 600), (150 + 1000, 600 + 85), (255, 255, 255), cv2.FILLED)
     alpha = 0.4
     img = cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0)  # add transparency
     cv2.rectangle(img, (150, 600), (150 + 1000, 600 + 85), (0, 0, 0), 2)
@@ -129,3 +129,7 @@ while True:
     k = cv2.waitKey(1) & 0xFF
     if k == 27:
         break
+
+
+cap.release()
+cv2.destroyAllWindows()

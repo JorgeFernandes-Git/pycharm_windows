@@ -24,6 +24,7 @@ while True:
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 3)
                 cv2.putText(img, word[11], (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)
 
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     cv2.imshow("Image", img)
 
     # ESC to close

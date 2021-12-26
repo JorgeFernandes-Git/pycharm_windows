@@ -19,6 +19,7 @@ hsv_vals = {'hmin': 0, 'smin': 130, 'vmin': 95, 'hmax': 17, 'smax': 255, 'vmax':
 pos_list_x, pos_list_y = [], []
 x_list = [item for item in range(0, 1300)]  # width
 prediction = ""
+colorT, colorR = (0, 0, 0), (0, 0, 0)
 
 while True:
     # grab image

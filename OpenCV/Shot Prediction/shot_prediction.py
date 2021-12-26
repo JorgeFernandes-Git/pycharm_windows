@@ -18,7 +18,7 @@ hsv_vals = {'hmin': 0, 'smin': 130, 'vmin': 95, 'hmax': 17, 'smax': 255, 'vmax':
 # variables
 pos_list_x, pos_list_y = [], []
 x_list = [item for item in range(0, 1300)]  # width
-a, b, c = 0, 0, 0
+# a, b, c = 0, 0, 0
 
 while True:
     # grab image
@@ -64,11 +64,18 @@ while True:
             y = int(a * x ** 2 + b * x + c)
             cv2.circle(img, (x, y), 2, (0, 0, 0), cv2.FILLED)
 
-    # prediction
-    # x val = 330 to 430
-    # y = 590
+        # prediction
+        # x val = 330 to 430
+        # y = 590
 
-    x = -b + math.sqrt(b ** 2 - (4 * a * c))/(2*a)
+        c = c - 590
+
+        x = -b - math.sqrt(b ** 2 - (4 * a * c)) / (2 * a)
+
+        if 330 < x < 430:
+            print("basket")
+        else:
+            print("no basket")
 
     # display
     img = cv2.resize(img, (0, 0), None, 0.7, 0.7)

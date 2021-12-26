@@ -14,12 +14,14 @@ width, height = 107, 48  # 157-50, 240-192
 def empty(a):
     pass
 
+
 # trackbars
 cv2.namedWindow("Vals")
 cv2.resizeWindow("Vals", 640, 240)
 cv2.createTrackbar("Val1", "Vals", 25, 50, empty)
 cv2.createTrackbar("Val2", "Vals", 16, 50, empty)
 cv2.createTrackbar("Val3", "Vals", 5, 50, empty)
+
 
 def check_space(img_process):
     space_cnt = 0

@@ -12,21 +12,30 @@ width, height = 107, 48  # 157-50, 240-192
 
 
 def check_space(img_process):
+    space_cnt = 0
     for pos in pos_list:
         x, y = pos
 
         img_crop = img_process[y:y + height, x:x + width]
         # cv2.imshow(str(x * y), img_crop)
         count = cv2.countNonZero(img_crop)  # number of pixels in the area
-        cvzone.putTextRect(img, str(count), (x, y + height - 5), scale=1.2, offset=0, thickness=1)
 
         if count < 900:
             color = (0, 255, 0)
             thickness = 5
+            text = (0, 0, 0)
+            space_cnt += 1
         else:
             color = (0, 0, 255)
             thickness = 2
+            text = (255, 255, 255)
+
         cv2.rectangle(img, pos, (pos[0] + width, pos[1] + height), color, thickness)
+        cvzone.putTextRect(img, str(count), (x, y + height - 5),
+                           scale=1.2, offset=0, thickness=1, colorR=color, colorT=text)
+
+    cvzone.putTextRect(img, f'free: {str(space_cnt)}/{len(pos_list)}', (100, 50),
+                       scale=4, offset=20, thickness=5, colorR=(0, 200, 0))
 
 
 while True:
@@ -45,7 +54,6 @@ while True:
     dilate = cv2.dilate(median, kernel, 1)
 
     check_space(dilate)
-
 
     cv2.imshow("image", img)
     # cv2.imshow("blur", blur)

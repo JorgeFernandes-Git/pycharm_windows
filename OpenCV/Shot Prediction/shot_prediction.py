@@ -64,18 +64,25 @@ while True:
             y = int(a * x ** 2 + b * x + c)
             cv2.circle(img, (x, y), 2, (0, 0, 0), cv2.FILLED)
 
-        # prediction
-        # x val = 330 to 430
-        # y = 590
+        if len(pos_list_x) < 10:
 
-        c = c - 590
+            # prediction
+            # x val = 330 to 430
+            # y = 590
 
-        x = -b - math.sqrt(b ** 2 - (4 * a * c)) / (2 * a)
+            c = c - 590
 
-        if 330 < x < 430:
-            print("basket")
-        else:
-            print("no basket")
+            x = int((-b - math.sqrt(b ** 2 - (4 * a * c))) / (2 * a))
+            # print(x)
+
+            if 330 < x < 430:
+                cvzone.putTextRect(img, "BASKET", (50, 150), 5, 5, colorT=(255, 255, 255), colorR=(0, 200, 0),
+                                   offset=20)
+                # print("basket")
+            else:
+                cvzone.putTextRect(img, "NO BASKET", (50, 150), 5, 5, colorT=(255, 255, 255), colorR=(0, 0, 200),
+                                   offset=20)
+                # print("no basket")
 
     # display
     img = cv2.resize(img, (0, 0), None, 0.7, 0.7)

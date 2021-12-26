@@ -1,9 +1,11 @@
+import math
+
 import cv2
 import cvzone
 from cvzone.ColorModule import ColorFinder
 import numpy as np
 
-path = "Videos/vid (3).mp4"
+path = "Videos/vid (4).mp4"
 # initialize
 cap = cv2.VideoCapture(path)
 
@@ -14,7 +16,9 @@ my_color_finder = ColorFinder(False)  # True - find color; False - run mode
 hsv_vals = {'hmin': 0, 'smin': 130, 'vmin': 95, 'hmax': 17, 'smax': 255, 'vmax': 255}
 
 # variables
-pos_list = []
+pos_list_x, pos_list_y = [], []
+x_list = [item for item in range(0, 1300)]  # width
+a, b, c = 0, 0, 0
 
 while True:
     # grab image
@@ -24,7 +28,8 @@ while True:
     if not ret:
         cap = cv2.VideoCapture(path)
         ret, img = cap.read()
-        pos_list.clear()
+        pos_list_x.clear()
+        pos_list_y.clear()
 
     # img for find color
     # img = cv2.imread("Ball.png")
@@ -40,18 +45,30 @@ while True:
 
     if contours:
         # biggest contours
-        pos_list.append(contours[0]["center"])
+        pos_list_x.append(contours[0]["center"][0])
+        pos_list_y.append(contours[0]["center"][1])
 
-    if pos_list:
+    if pos_list_x:
         # polynomial regression y = ax^2 + bx + c
         # find coefficients
-        a, b, c = np.polyfit(pos_list, 2)  # (list, order)
+        a, b, c = np.polyfit(pos_list_x, pos_list_y, 2)  # (list_x, list_y, order)
 
         # draw points and line
-        for i, pos in enumerate(pos_list):
-            cv2.circle(img, pos, 5, (0, 255, 0), cv2.FILLED)
+        for i, (pos_x, pos_y) in enumerate(zip(pos_list_x, pos_list_y)):
+            pos = (pos_x, pos_y)
+            cv2.circle(img, pos, 10, (0, 255, 0), cv2.FILLED)
             if not i == 0:
-                cv2.line(img, pos, pos_list[i - 1], (255, 0, 0), 1)
+                cv2.line(img, pos, (pos_list_x[i - 1], pos_list_y[i - 1]), (255, 0, 0), 5)
+
+        for x in x_list:
+            y = int(a * x ** 2 + b * x + c)
+            cv2.circle(img, (x, y), 2, (0, 0, 0), cv2.FILLED)
+
+    # prediction
+    # x val = 330 to 430
+    # y = 590
+
+    x = -b + math.sqrt(b ** 2 - (4 * a * c))/(2*a)
 
     # display
     img = cv2.resize(img, (0, 0), None, 0.7, 0.7)

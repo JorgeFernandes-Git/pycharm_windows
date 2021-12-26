@@ -5,7 +5,7 @@ import cvzone
 from cvzone.ColorModule import ColorFinder
 import numpy as np
 
-path = "Videos/vid (4).mp4"
+path = "Videos/vid (1).mp4"
 # initialize
 cap = cv2.VideoCapture(path)
 
@@ -20,6 +20,7 @@ pos_list_x, pos_list_y = [], []
 x_list = [item for item in range(0, 1300)]  # width
 prediction = ""
 colorT, colorR = (0, 0, 0), (0, 0, 0)
+cnt = 1
 
 while True:
     # grab image
@@ -27,6 +28,11 @@ while True:
 
     # loop video
     if not ret:
+        if cnt >= 7:
+            cnt = 1
+        else:
+            cnt += 1
+        path = f'Videos/vid ({cnt}).mp4'
         cap = cv2.VideoCapture(path)
         ret, img = cap.read()
         pos_list_x.clear()
@@ -76,7 +82,7 @@ while True:
             x = int((-b - math.sqrt(b ** 2 - (4 * a * c))) / (2 * a))
             # print(x)
 
-            if 330 < x < 430:
+            if 320 < x < 430:
                 prediction = "BASKET"
                 colorT = (255, 255, 255)
                 colorR = (0, 200, 0)

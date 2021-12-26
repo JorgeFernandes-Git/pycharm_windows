@@ -11,6 +11,16 @@ with open("CarParkPos", "rb") as f:
 width, height = 107, 48  # 157-50, 240-192
 
 
+def empty(a):
+    pass
+
+# trackbars
+cv2.namedWindow("Vals")
+cv2.resizeWindow("Vals", 640, 240)
+cv2.createTrackbar("Val1", "Vals", 25, 50, empty)
+cv2.createTrackbar("Val2", "Vals", 16, 50, empty)
+cv2.createTrackbar("Val3", "Vals", 5, 50, empty)
+
 def check_space(img_process):
     space_cnt = 0
     for pos in pos_list:
@@ -47,9 +57,16 @@ while True:
     # grab cars in space
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (3, 3), 1)
+
+    val1 = cv2.getTrackbarPos("Val1", "Vals")
+    val2 = cv2.getTrackbarPos("Val2", "Vals")
+    val3 = cv2.getTrackbarPos("Val3", "Vals")
+    if val1 % 2 == 0: val1 += 1
+    if val3 % 2 == 0: val3 += 1
+
     threshold = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                      cv2.THRESH_BINARY_INV, 25, 16)
-    median = cv2.medianBlur(threshold, 5)
+                                      cv2.THRESH_BINARY_INV, val1, val2)
+    median = cv2.medianBlur(threshold, val3)
     kernel = np.ones((3, 3), np.uint8)
     dilate = cv2.dilate(median, kernel, 1)
 

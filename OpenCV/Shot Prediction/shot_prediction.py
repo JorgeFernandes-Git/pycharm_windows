@@ -2,8 +2,9 @@ import cv2
 import cvzone
 from cvzone.ColorModule import ColorFinder
 
+path = "Videos/vid (3).mp4"
 # initialize
-cap = cv2.VideoCapture("Videos/vid (1).mp4")
+cap = cv2.VideoCapture(path)
 
 # create the color finder object
 my_color_finder = ColorFinder(False)  # True - find color; False - run mode
@@ -20,7 +21,7 @@ while True:
 
     # loop video
     if not ret:
-        cap = cv2.VideoCapture("Videos/vid (2).mp4")
+        cap = cv2.VideoCapture(path)
         ret, img = cap.read()
         pos_list.clear()
 

@@ -18,7 +18,7 @@ hsv_vals = {'hmin': 0, 'smin': 130, 'vmin': 95, 'hmax': 17, 'smax': 255, 'vmax':
 # variables
 pos_list_x, pos_list_y = [], []
 x_list = [item for item in range(0, 1300)]  # width
-# a, b, c = 0, 0, 0
+prediction = ""
 
 while True:
     # grab image
@@ -64,7 +64,7 @@ while True:
             y = int(a * x ** 2 + b * x + c)
             cv2.circle(img, (x, y), 2, (0, 0, 0), cv2.FILLED)
 
-        if len(pos_list_x) < 10:
+        if len(pos_list_x) < 10:  # predict only in the first 9 frames
 
             # prediction
             # x val = 330 to 430
@@ -76,13 +76,22 @@ while True:
             # print(x)
 
             if 330 < x < 430:
-                cvzone.putTextRect(img, "BASKET", (50, 150), 5, 5, colorT=(255, 255, 255), colorR=(0, 200, 0),
-                                   offset=20)
+                prediction = "BASKET"
+                colorT = (255, 255, 255)
+                colorR = (0, 200, 0)
+                # cvzone.putTextRect(img, "BASKET", (50, 150), 5, 5, colorT=(255, 255, 255), colorR=(0, 200, 0),
+                #                    offset=20)
                 # print("basket")
             else:
-                cvzone.putTextRect(img, "NO BASKET", (50, 150), 5, 5, colorT=(255, 255, 255), colorR=(0, 0, 200),
-                                   offset=20)
+                prediction = "NO BASKET"
+                colorT = (255, 255, 255)
+                colorR = (0, 0, 200)
+                # cvzone.putTextRect(img, "NO BASKET", (50, 150), 5, 5, colorT=(255, 255, 255), colorR=(0, 0, 200),
+                #                    offset=20)
                 # print("no basket")
+
+        cvzone.putTextRect(img, prediction, (50, 150), 5, 5, colorT, colorR,
+                           offset=20)
 
     # display
     img = cv2.resize(img, (0, 0), None, 0.7, 0.7)

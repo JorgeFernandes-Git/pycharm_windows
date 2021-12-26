@@ -94,6 +94,9 @@ while True:
         cvzone.putTextRect(img, prediction, (50, 150), 5, 5, colorT, colorR,
                            offset=20)
 
+        if len(pos_list_x) == 10:
+            cv2.waitKey()
+
     # display
     img = cv2.resize(img, (0, 0), None, 0.7, 0.7)
     cv2.imshow("image", img)

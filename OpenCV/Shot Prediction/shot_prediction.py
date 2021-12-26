@@ -105,6 +105,8 @@ while True:
             cv2.waitKey()
 
     # display
+    cvzone.putTextRect(img, path, (50, 850), 1, 1, (0, 0, 0), (255, 255, 255),
+                       offset=10)
     img = cv2.resize(img, (0, 0), None, 0.7, 0.7)
     cv2.imshow("image", img)
 

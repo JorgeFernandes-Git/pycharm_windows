@@ -1,6 +1,7 @@
 import cv2
 import cvzone
 from cvzone.ColorModule import ColorFinder
+import numpy as np
 
 path = "Videos/vid (3).mp4"
 # initialize
@@ -41,11 +42,16 @@ while True:
         # biggest contours
         pos_list.append(contours[0]["center"])
 
-    for i, pos in enumerate(pos_list):
-        cv2.circle(img, pos, 5, (0, 255, 0), cv2.FILLED)
-        if not i == 0:
-            cv2.line(img, pos, pos_list[i - 1], (255, 0, 0), 1)
+    if pos_list:
+        # polynomial regression y = ax^2 + bx + c
+        # find coefficients
+        a, b, c = np.polyfit(pos_list, 2)  # (list, order)
 
+        # draw points and line
+        for i, pos in enumerate(pos_list):
+            cv2.circle(img, pos, 5, (0, 255, 0), cv2.FILLED)
+            if not i == 0:
+                cv2.line(img, pos, pos_list[i - 1], (255, 0, 0), 1)
 
     # display
     img = cv2.resize(img, (0, 0), None, 0.7, 0.7)

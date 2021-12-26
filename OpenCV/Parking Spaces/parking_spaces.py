@@ -20,6 +20,14 @@ def check_space(img_process):
         count = cv2.countNonZero(img_crop)  # number of pixels in the area
         cvzone.putTextRect(img, str(count), (x, y + height - 5), scale=1.2, offset=0, thickness=1)
 
+        if count < 900:
+            color = (0, 255, 0)
+            thickness = 5
+        else:
+            color = (0, 0, 255)
+            thickness = 2
+        cv2.rectangle(img, pos, (pos[0] + width, pos[1] + height), color, thickness)
+
 
 while True:
     if cap.get(cv2.CAP_PROP_POS_FRAMES) == cap.get(cv2.CAP_PROP_FRAME_COUNT):
@@ -38,8 +46,6 @@ while True:
 
     check_space(dilate)
 
-    for pos in pos_list:
-        cv2.rectangle(img, pos, (pos[0] + width, pos[1] + height), (255, 0, 255), 2)
 
     cv2.imshow("image", img)
     # cv2.imshow("blur", blur)

@@ -37,6 +37,7 @@ while True:
         ret, img = cap.read()
         pos_list_x.clear()
         pos_list_y.clear()
+        print(path)
 
     # img for find color
     # img = cv2.imread("Ball.png")

@@ -7,7 +7,6 @@ img_back = cv2.imread("pc.jpg")
 img_front = cv2.imread("logo.png", cv2.IMREAD_UNCHANGED)
 img_front = cv2.resize(img_front, (0, 0), None, 0.25, 0.25)
 
-
 hf, wf, cf = img_front.shape
 hb, wb, cb = img_back.shape
 
